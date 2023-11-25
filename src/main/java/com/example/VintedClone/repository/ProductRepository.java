@@ -1,5 +1,6 @@
-package com.example.VintedClone.product;
+package com.example.VintedClone.repository;
 
+import com.example.VintedClone.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

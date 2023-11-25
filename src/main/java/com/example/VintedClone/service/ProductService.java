@@ -1,31 +1,54 @@
-package com.example.VintedClone.product;
+package com.example.VintedClone.service;
 
+import com.example.VintedClone.dto.ProductRequest;
+import com.example.VintedClone.dto.ProductResponse;
+import com.example.VintedClone.model.Category;
+import com.example.VintedClone.model.Product;
+import com.example.VintedClone.repository.ProductRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.List;
 import java.util.Objects;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class ProductService {
 
     private final ProductRepository productRepository;
 
-    @Autowired
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public List<ProductResponse> getProducts(){
+        List<Product> products = productRepository.findAll();
+        return products.stream().map(this::mapToProductResponse).toList();
     }
 
-    public List<Product> getProducts(){
-        return productRepository.findAll();
+    private ProductResponse mapToProductResponse(Product product) {
+        return ProductResponse.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .description(product.getDescription())
+                .category(product.getCategory())
+                .price(product.getPrice())
+                .added(product.getAdded())
+                .build();
     }
 
-    public void addNewProduct(Product product){
+    public void addNewProduct(ProductRequest productRequest){
+        Product product = Product.builder()
+                .name(productRequest.getName())
+                .description(productRequest.getDescription())
+                .category(productRequest.getCategory())
+                .price(productRequest.getPrice())
+                .added(LocalDate.now())
+                .build();
+
         productRepository.save(product);
-        //System.out.println(product);
+        log.info("Product " + product.getId() +" is saved");
     }
 
     public void deleteProduct(Long productId) {

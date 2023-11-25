@@ -1,31 +1,33 @@
-package com.example.VintedClone.product;
+package com.example.VintedClone.controller;
 
+import com.example.VintedClone.dto.ProductRequest;
+import com.example.VintedClone.dto.ProductResponse;
+import com.example.VintedClone.model.Product;
+import com.example.VintedClone.service.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/product")
+@RequestMapping(path = "/api/product")
+@RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
 
-    @Autowired
-    public ProductController(ProductService productService){
-        this.productService = productService;
-    }
-
     @GetMapping
-    public List<Product> getProducts(){
+    @ResponseStatus(HttpStatus.OK)
+    public List<ProductResponse> getProducts(){
         return productService.getProducts();
     }
 
     @PostMapping
-    public void addNewProduct(@RequestBody Product product){
-        productService.addNewProduct(product);
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addNewProduct(@RequestBody ProductRequest productRequest){
+        productService.addNewProduct(productRequest);
     }
 
     @DeleteMapping(path = "{productId}")

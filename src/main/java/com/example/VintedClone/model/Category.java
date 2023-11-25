@@ -1,4 +1,4 @@
-package com.example.VintedClone.product;
+package com.example.VintedClone.model;
 
 public enum Category {
     UBRANIA,

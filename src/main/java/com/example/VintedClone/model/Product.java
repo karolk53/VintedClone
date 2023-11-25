@@ -1,5 +1,6 @@
-package com.example.VintedClone.product;
+package com.example.VintedClone.model;
 
+import com.example.VintedClone.model.Category;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
