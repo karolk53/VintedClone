@@ -40,6 +40,9 @@ public class Product {
     @Column(name = "added_date") // Dodaj nazwę kolumny w bazie danych
     private LocalDate added;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     @Override
     public String toString() {
         return "Product{" +

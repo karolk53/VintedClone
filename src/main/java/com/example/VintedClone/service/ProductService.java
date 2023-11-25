@@ -4,6 +4,7 @@ import com.example.VintedClone.dto.ProductRequest;
 import com.example.VintedClone.dto.ProductResponse;
 import com.example.VintedClone.model.Category;
 import com.example.VintedClone.model.Product;
+import com.example.VintedClone.model.Status;
 import com.example.VintedClone.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +25,7 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     public List<ProductResponse> getProducts(){
-        List<Product> products = productRepository.findAll();
+        List<Product> products = productRepository.findAll();   //findProductsByStatus(Status.AKUTALNE.toString());
         return products.stream().map(this::mapToProductResponse).toList();
     }
 
@@ -35,6 +37,7 @@ public class ProductService {
                 .category(product.getCategory())
                 .price(product.getPrice())
                 .added(product.getAdded())
+                .status(product.getStatus().toString())
                 .build();
     }
 
@@ -45,6 +48,7 @@ public class ProductService {
                 .category(productRequest.getCategory())
                 .price(productRequest.getPrice())
                 .added(LocalDate.now())
+                .status(Status.AKUTALNE)
                 .build();
 
         productRepository.save(product);
@@ -92,4 +96,9 @@ public class ProductService {
         productRepository.save(product);
     }
 
+    public void buyProduct(Long productId) {
+        Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalStateException("Product does not exist"));
+        product.setStatus(Status.SPRZEDANE);
+        productRepository.save(product);
+    }
 }

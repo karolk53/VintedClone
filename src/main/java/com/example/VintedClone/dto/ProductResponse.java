@@ -21,5 +21,6 @@ public class ProductResponse {
     private Category category;
     private float price;
     private LocalDate added;
+    private  String status;
 
 }

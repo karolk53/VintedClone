@@ -20,7 +20,7 @@ public class ProductController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<ProductResponse> getProducts(){
+    public List<ProductResponse> getCurrentProducts(){
         return productService.getProducts();
     }
 
@@ -43,5 +43,10 @@ public class ProductController {
                               @RequestBody(required = false) String categoryName
     ){
         productService.updateProduct(productId , name, description, price, categoryName);
+    }
+
+    @PutMapping(path = "/buy/{productId}")
+    public void buyProduct(@PathVariable("productId") Long productId){
+        productService.buyProduct(productId);
     }
 }

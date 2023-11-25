@@ -2,6 +2,7 @@ package com.example.VintedClone.config;
 
 import com.example.VintedClone.model.Category;
 import com.example.VintedClone.model.Product;
+import com.example.VintedClone.model.Status;
 import com.example.VintedClone.repository.ProductRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +23,8 @@ public class ProductConfig {
                     "Description1",
                     Category.UBRANIA,
                     12,
-                    LocalDate.of(2023, Month.JANUARY, 12)
+                    LocalDate.of(2023, Month.JANUARY, 12),
+                    Status.AKUTALNE
             );
             Product p2 = new Product(
                     2L,
@@ -30,7 +32,8 @@ public class ProductConfig {
                     "Description2",
                     Category.OBUWIE,
                     12,
-                    LocalDate.of(2023, Month.JANUARY, 2)
+                    LocalDate.of(2023, Month.JANUARY, 2),
+                    Status.AKUTALNE
             );
             Product p3 = new Product(
                     3L,
@@ -38,7 +41,8 @@ public class ProductConfig {
                     "Description3",
                     Category.DODATKI,
                     12,
-                    LocalDate.of(2023, Month.JANUARY, 1)
+                    LocalDate.of(2023, Month.JANUARY, 1),
+                    Status.AKUTALNE
             );
 
             repository.saveAll(
