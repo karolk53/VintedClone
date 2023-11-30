@@ -37,10 +37,10 @@ public class ProductController {
 
     @PutMapping(path = "{productId}")
     public void updateProduct(@PathVariable("productId") Long productId,
-                              @RequestBody(required = false) String name,
-                              @RequestBody(required = false) String description,
-                              @RequestBody(required = false) String price,
-                              @RequestBody(required = false) String categoryName
+                              @RequestParam(required = false) String name,
+                              @RequestParam(required = false) String description,
+                              @RequestParam(required = false) String price,
+                              @RequestParam(required = false) String categoryName
     ){
         productService.updateProduct(productId , name, description, price, categoryName);
     }

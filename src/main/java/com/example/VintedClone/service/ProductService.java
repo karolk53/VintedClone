@@ -25,7 +25,7 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     public List<ProductResponse> getProducts(){
-        List<Product> products = productRepository.findAll();   //findProductsByStatus(Status.AKUTALNE.toString());
+        List<Product> products = productRepository.findAll();
         return products.stream().map(this::mapToProductResponse).toList();
     }
 
@@ -89,10 +89,6 @@ public class ProductService {
             }
         }
 
-        System.out.println("t1" + name);
-        System.out.println("t2" + description);
-        System.out.println("t3" + price);
-        System.out.println("t4" + categoryName);
         productRepository.save(product);
     }
 
