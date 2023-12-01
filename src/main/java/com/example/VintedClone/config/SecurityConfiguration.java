@@ -25,6 +25,8 @@ public class SecurityConfiguration {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/productImage/**").permitAll()
                         .requestMatchers(
                                 "/api/auth/**",
                                 "/v2/api-docs",
