@@ -10,7 +10,4 @@ public class VintedCloneApplication {
 		SpringApplication.run(VintedCloneApplication.class, args);
 	}
 
-
-
-
 }

@@ -4,6 +4,15 @@ import com.example.VintedClone.dto.ProductRequest;
 import com.example.VintedClone.dto.ProductResponse;
 import com.example.VintedClone.model.Product;
 import com.example.VintedClone.service.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +23,8 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/api/product")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
+@Tag(name = "Products")
 public class ProductController {
 
     private final ProductService productService;
@@ -26,16 +37,27 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addNewProduct(@RequestBody ProductRequest productRequest){
+    @Operation(summary = "Create a new product")
+    public void addNewProduct(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                description = "Product add",
+                required = true,
+                content = @Content(schema = @Schema(implementation = ProductRequest.class))
+            )
+            @Valid
+            @RequestBody ProductRequest productRequest
+    ){
         productService.addNewProduct(productRequest);
     }
 
     @DeleteMapping(path = "{productId}")
+    @Operation(description = "Delete product")
     public void deleteProduct(@PathVariable("productId") Long productId){
         productService.deleteProduct(productId);
     }
 
     @PutMapping(path = "{productId}")
+    @Operation(summary = "Update product info")
     public void updateProduct(@PathVariable("productId") Long productId,
                               @RequestBody(required = false) String name,
                               @RequestBody(required = false) String description,
@@ -46,6 +68,7 @@ public class ProductController {
     }
 
     @PutMapping(path = "/buy/{productId}")
+    @Operation(summary = "Buy product")
     public void buyProduct(@PathVariable("productId") Long productId){
         productService.buyProduct(productId);
     }

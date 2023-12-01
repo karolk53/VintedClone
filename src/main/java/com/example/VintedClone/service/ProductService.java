@@ -101,4 +101,5 @@ public class ProductService {
         product.setStatus(Status.SPRZEDANE);
         productRepository.save(product);
     }
+
 }
