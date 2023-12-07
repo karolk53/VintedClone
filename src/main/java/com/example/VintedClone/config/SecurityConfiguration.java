@@ -29,6 +29,7 @@ public class SecurityConfiguration {
                                 "/api/auth/**",
                                 "/api/productImage/**",
                                 "/api/json/**",
+                                "/api/xml/**",
                                 "/v2/api-docs",
                                 "/v3/api-docs",
                                 "/v3/api-docs/**",
