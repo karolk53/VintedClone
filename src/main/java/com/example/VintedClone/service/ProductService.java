@@ -7,6 +7,7 @@ import com.example.VintedClone.model.Product;
 import com.example.VintedClone.model.Status;
 import com.example.VintedClone.model.User;
 import com.example.VintedClone.repository.ProductRepository;
+import com.example.VintedClone.repository.PurchaseRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,8 @@ import java.util.Optional;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final PurchaseService purchaseService; // Dodaj PurchaseService
+
 
     public List<ProductResponse> getProducts(){
         List<Product> products = productRepository.findAll();
@@ -97,9 +100,10 @@ public class ProductService {
         productRepository.save(product);
     }
 
-    public void buyProduct(Long productId) {
+    public void buyProduct(Long productId, User user) {
         Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalStateException("Product does not exist"));
         product.setStatus(Status.SPRZEDANE);
+        purchaseService.addPurchase(productId, user);
         productRepository.save(product);
     }
 

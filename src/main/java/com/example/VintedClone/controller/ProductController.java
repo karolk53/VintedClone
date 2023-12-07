@@ -73,7 +73,7 @@ public class ProductController {
 
     @PutMapping(path = "/buy/{productId}")
     @Operation(summary = "Buy product")
-    public void buyProduct(@PathVariable("productId") Long productId){
-        productService.buyProduct(productId);
+    public void buyProduct(@PathVariable("productId") Long productId, @AuthenticationPrincipal User user){
+        productService.buyProduct(productId, user);
     }
 }
