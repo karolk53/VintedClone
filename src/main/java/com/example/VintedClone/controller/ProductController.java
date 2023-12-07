@@ -3,6 +3,7 @@ package com.example.VintedClone.controller;
 import com.example.VintedClone.dto.ProductRequest;
 import com.example.VintedClone.dto.ProductResponse;
 import com.example.VintedClone.model.Product;
+import com.example.VintedClone.model.User;
 import com.example.VintedClone.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -16,6 +17,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -69,7 +71,7 @@ public class ProductController {
 
     @PutMapping(path = "/buy/{productId}")
     @Operation(summary = "Buy product")
-    public void buyProduct(@PathVariable("productId") Long productId){
-        productService.buyProduct(productId);
+    public void buyProduct(@PathVariable("productId") Long productId, @AuthenticationPrincipal User user){
+        productService.buyProduct(productId, user);
     }
 }
