@@ -27,6 +27,8 @@ public class PurchaseService {
 
     public Purchase addPurchase(Long productId, User user) {
         Optional<Product> productOptional = productRepository.findProductById(String.valueOf(productId));
+        System.out.println(productOptional);
+        System.out.println(user);
 
         if (productOptional.isPresent()) {
             Product product = productOptional.get();

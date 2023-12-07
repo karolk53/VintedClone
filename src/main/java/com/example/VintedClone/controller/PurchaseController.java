@@ -6,6 +6,7 @@ import com.example.VintedClone.service.PurchaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -18,9 +19,10 @@ public class PurchaseController {
 
     private final PurchaseService purchaseService;
 
-    @PostMapping("/add")
-    public ResponseEntity<Purchase> addPurchase(@RequestParam Long productId, @RequestBody User user) {
+    @PostMapping("/add/{productId}")
+    public ResponseEntity<Purchase> addPurchase(@PathVariable Long productId, @AuthenticationPrincipal User user) {
         try {
+            System.out.println("xd");
             Purchase newPurchase = purchaseService.addPurchase(productId, user);
             return new ResponseEntity<>(newPurchase, HttpStatus.CREATED);
         } catch (RuntimeException e) {
