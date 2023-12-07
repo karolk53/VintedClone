@@ -43,6 +43,10 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "seller_id")
+    private User seller;
+
     @Override
     public String toString() {
         return "Product{" +

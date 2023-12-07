@@ -5,11 +5,15 @@ import com.example.VintedClone.dto.ProductResponse;
 import com.example.VintedClone.model.Category;
 import com.example.VintedClone.model.Product;
 import com.example.VintedClone.model.Status;
+import com.example.VintedClone.model.User;
 import com.example.VintedClone.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -41,7 +45,7 @@ public class ProductService {
                 .build();
     }
 
-    public void addNewProduct(ProductRequest productRequest){
+    public void addNewProduct(ProductRequest productRequest, User user){
         Product product = Product.builder()
                 .name(productRequest.getName())
                 .description(productRequest.getDescription())
@@ -49,6 +53,7 @@ public class ProductService {
                 .price(productRequest.getPrice())
                 .added(LocalDate.now())
                 .status(Status.AKUTALNE)
+                .seller(user)
                 .build();
 
         productRepository.save(product);

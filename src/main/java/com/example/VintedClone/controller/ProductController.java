@@ -3,6 +3,7 @@ package com.example.VintedClone.controller;
 import com.example.VintedClone.dto.ProductRequest;
 import com.example.VintedClone.dto.ProductResponse;
 import com.example.VintedClone.model.Product;
+import com.example.VintedClone.model.User;
 import com.example.VintedClone.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -16,6 +17,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,6 +41,7 @@ public class ProductController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new product")
     public void addNewProduct(
+            @AuthenticationPrincipal User user,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                 description = "Product add",
                 required = true,
@@ -46,8 +49,9 @@ public class ProductController {
             )
             @Valid
             @RequestBody ProductRequest productRequest
+
     ){
-        productService.addNewProduct(productRequest);
+        productService.addNewProduct(productRequest, user);
     }
 
     @DeleteMapping(path = "{productId}")

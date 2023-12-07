@@ -28,6 +28,8 @@ public class User implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "seller", cascade = CascadeType.MERGE)
+    private List<Product> SellingProducts;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
