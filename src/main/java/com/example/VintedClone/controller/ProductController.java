@@ -77,4 +77,10 @@ public class ProductController {
     public void buyProduct(@PathVariable("productId") Long productId, @AuthenticationPrincipal User user){
         productService.buyProduct(productId, user);
     }
+
+    @GetMapping(path = "/userProducts")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ProductResponse> getUserProducts(@AuthenticationPrincipal User user) {
+        return productService.getProductsForUser(user);
+    }
 }

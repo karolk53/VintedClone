@@ -111,4 +111,10 @@ public class ProductService {
         productRepository.save(product);
     }
 
+    public List<ProductResponse> getProductsForUser(User user) {
+        List<Product> products = productRepository.findProductsBySeller(user);
+
+        return products.stream().map(this::mapToProductResponse).toList();
+    }
+
 }
