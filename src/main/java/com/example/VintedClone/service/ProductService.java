@@ -31,7 +31,11 @@ public class ProductService {
     private final PurchaseService purchaseService; // Dodaj PurchaseService
 
 
-    public List<ProductResponse> getProducts(){
+    public List<ProductResponse> getProducts(Category category){
+        if(category != null){
+            List<Product> products = productRepository.findProductsByCategory(category);
+            return products.stream().map(this::mapToProductResponse).toList();
+        }
         List<Product> products = productRepository.findAll();
         return products.stream().map(this::mapToProductResponse).toList();
     }

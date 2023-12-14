@@ -2,6 +2,7 @@ package com.example.VintedClone.controller;
 
 import com.example.VintedClone.dto.ProductResponse;
 import com.example.VintedClone.dto.ProductResponseList;
+import com.example.VintedClone.model.Category;
 import com.example.VintedClone.service.ProductService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.xml.bind.JAXBContext;
@@ -31,12 +32,12 @@ public class XmlController {
     private final ProductService productService;
 
     @GetMapping("/download")
-    public ResponseEntity<?> getXmlFileWithProducts() throws JAXBException, FileNotFoundException {
+    public ResponseEntity<?> getXmlFileWithProducts(@RequestParam(required = false) Category cateogry) throws JAXBException, FileNotFoundException {
         JAXBContext ctx = JAXBContext.newInstance(ProductResponseList.class);
         Marshaller marshaller = ctx.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-        List<ProductResponse> products = productService.getProducts();
+        List<ProductResponse> products = productService.getProducts(cateogry);
         ProductResponseList productResponseList = new ProductResponseList();
         productResponseList.setProductResponseList(products);
         File file = new File("products.xml");

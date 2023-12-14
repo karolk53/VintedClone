@@ -2,6 +2,7 @@ package com.example.VintedClone.controller;
 
 import com.example.VintedClone.model.ProductImage;
 import com.example.VintedClone.service.ProductImageService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(path = "/api/productImage")
 @RequiredArgsConstructor
+@Tag(name = "Product Image")
 public class ProductImageController {
 
     @Autowired

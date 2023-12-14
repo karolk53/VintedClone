@@ -2,20 +2,24 @@ package com.example.VintedClone.controller;
 
 import com.example.VintedClone.dto.ProductRequest;
 import com.example.VintedClone.dto.ProductResponse;
+import com.example.VintedClone.dto.PurchaseResponse;
 import com.example.VintedClone.model.User;
 import com.example.VintedClone.service.JsonExporter;
 import com.example.VintedClone.service.ProductService;
+import com.example.VintedClone.service.PurchaseService;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,18 +36,19 @@ import java.util.List;
 public class JsonController {
     private final JsonExporter jsonExporter;
     private final ProductService productService;
+    private final PurchaseService purchaseService;
 
     @GetMapping("/download")
-    public ResponseEntity<byte[]> downloadProductsInJson(){
-        List<ProductResponse> products = productService.getProducts();
+    public ResponseEntity<byte[]> downloadPurchasesInJson(@AuthenticationPrincipal User user){
+        List<PurchaseResponse> purchases = purchaseService.getPurchasesByUserId(user.getId());
 
-        String productsJsonString = jsonExporter.export(products);
+        String productsJsonString = jsonExporter.export(purchases);
 
         byte[] productsJsonBytes = productsJsonString.getBytes();
 
         return ResponseEntity
                 .ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=products.json")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=purchases.json")
                 .contentType(MediaType.APPLICATION_JSON)
                 .contentLength(productsJsonBytes.length)
                 .body(productsJsonBytes);

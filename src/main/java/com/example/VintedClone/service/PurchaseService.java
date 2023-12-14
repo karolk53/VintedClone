@@ -1,5 +1,6 @@
 package com.example.VintedClone.service;
 
+import com.example.VintedClone.dto.PurchaseResponse;
 import com.example.VintedClone.model.Product;
 import com.example.VintedClone.model.Purchase;
 import com.example.VintedClone.model.User;
@@ -8,9 +9,8 @@ import com.example.VintedClone.repository.PurchaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PurchaseService {
@@ -26,33 +26,39 @@ public class PurchaseService {
     }
 
     public Purchase addPurchase(Long productId, User user) {
-        Optional<Product> productOptional = productRepository.findProductById(String.valueOf(productId));
-        System.out.println(productOptional);
+        Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalStateException("Product does not exist"));
+        System.out.println(product);
         System.out.println(user);
 
-        if (productOptional.isPresent()) {
-            Product product = productOptional.get();
+        Purchase newPurchase = Purchase.builder()
+                .product(product)
+                .user(user)
+                .creationDate(LocalDate.now())
+                .build();
 
-            Purchase newPurchase = Purchase.builder()
-                    .product(product)
-                    .user(user)
-                    .creationDate(new Date())
-                    .build();
-
-            return purchaseRepository.save(newPurchase);
-        } else {
-            throw new RuntimeException("Product not found for id: " + productId);
-        }
+        return purchaseRepository.save(newPurchase);
     }
 
 
-    public List<Purchase> getPurchasesByUserId(int userId) {
+    public List<PurchaseResponse> getPurchasesByUserId(int userId) {
         // Pobieramy listę zakupów dla danego użytkownika
-        return purchaseRepository.findByUserId(userId);
+        List<Purchase> purchases = purchaseRepository.findByUserId(userId);
+        return purchases.stream().map(this::mapToPurchaseResponse).toList();
     }
 
-    public List<Purchase> getPurchasesByDate(Date date) {
+    public List<PurchaseResponse> getPurchasesByDate(LocalDate date) {
         // Pobieramy listę zakupów po dacie
-        return purchaseRepository.findByCreationDateAfter(date);
+        List<Purchase> purchases = purchaseRepository.findByCreationDateAfter(date);
+        return purchases.stream().map(this::mapToPurchaseResponse).toList();
+    }
+
+    private PurchaseResponse mapToPurchaseResponse(Purchase purchase) {
+        return PurchaseResponse.builder()
+                .id(purchase.getId())
+                .productName(purchase.getProduct().getName())
+                .purchaseDate(purchase.getCreationDate())
+                .price(purchase.getProduct().getPrice())
+                .build();
+
     }
 }

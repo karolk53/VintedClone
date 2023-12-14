@@ -2,6 +2,7 @@ package com.example.VintedClone.controller;
 
 import com.example.VintedClone.dto.ProductRequest;
 import com.example.VintedClone.dto.ProductResponse;
+import com.example.VintedClone.model.Category;
 import com.example.VintedClone.model.Product;
 import com.example.VintedClone.model.User;
 import com.example.VintedClone.service.ProductService;
@@ -33,8 +34,8 @@ public class ProductController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<ProductResponse> getCurrentProducts(){
-        return productService.getProducts();
+    public List<ProductResponse> getCurrentProducts(@RequestParam(required = false) Category category){
+        return productService.getProducts(category);
     }
 
     @PostMapping

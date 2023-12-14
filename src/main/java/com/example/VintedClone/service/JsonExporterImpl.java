@@ -2,6 +2,7 @@ package com.example.VintedClone.service;
 
 import com.example.VintedClone.config.LocalDateTypeAdapter;
 import com.example.VintedClone.dto.ProductResponse;
+import com.example.VintedClone.dto.PurchaseResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import java.util.List;
 public class JsonExporterImpl implements  JsonExporter{
 
     @Override
-    public String export(List<ProductResponse> products) {
+    public String export(List<PurchaseResponse> products) {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class,new LocalDateTypeAdapter())
                 .create();

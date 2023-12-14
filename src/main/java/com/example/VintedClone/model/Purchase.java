@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "Purchase")
@@ -17,17 +17,18 @@ import java.util.Date;
 public class Purchase {
     @Id
     @GeneratedValue
+    @Column(name = "purchase_id")
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "productId")
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "purchase_id")
     private Product product;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "userId")
     private User user;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_date", nullable = false, updatable = false)
-    private Date creationDate;
+    private LocalDate creationDate;
 }

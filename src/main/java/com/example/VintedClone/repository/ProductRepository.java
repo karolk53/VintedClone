@@ -1,5 +1,6 @@
 package com.example.VintedClone.repository;
 
+import com.example.VintedClone.model.Category;
 import com.example.VintedClone.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,4 +17,7 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
 
     @Query("select p from Product p where p.status = ?1")
     List<Product> findProductsByStatus(String status);
+
+    @Query("select p from Product p where p.category = ?1")
+    List<Product> findProductsByCategory(Category category);
 }

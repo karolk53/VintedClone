@@ -1,6 +1,5 @@
 package com.example.VintedClone.model;
 
-import com.example.VintedClone.model.Category;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,6 +45,10 @@ public class Product {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "seller_id")
     private User seller;
+
+    @OneToOne(mappedBy = "product", cascade = CascadeType.MERGE)
+    @PrimaryKeyJoinColumn
+    private Purchase purchase;
 
     @Override
     public String toString() {
