@@ -4,6 +4,7 @@ import com.example.VintedClone.dto.ProductResponse;
 import com.example.VintedClone.dto.ProductResponseList;
 import com.example.VintedClone.model.Category;
 import com.example.VintedClone.service.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
@@ -32,6 +33,7 @@ public class XmlController {
     private final ProductService productService;
 
     @GetMapping("/download")
+    @Operation(summary = "Download list of products by category to XML file")
     public ResponseEntity<?> getXmlFileWithProducts(@RequestParam(required = false) Category cateogry) throws JAXBException, FileNotFoundException {
         JAXBContext ctx = JAXBContext.newInstance(ProductResponseList.class);
         Marshaller marshaller = ctx.createMarshaller();

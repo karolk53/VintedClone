@@ -4,6 +4,7 @@ import com.example.VintedClone.dto.PurchaseResponse;
 import com.example.VintedClone.model.Purchase;
 import com.example.VintedClone.model.User;
 import com.example.VintedClone.service.PurchaseService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -36,12 +37,14 @@ public class PurchaseController {
 //    }
 
     @GetMapping("/user")
+    @Operation(summary = "Get list of user's purchases")
     public ResponseEntity<List<PurchaseResponse>> getPurchasesByUserId(@AuthenticationPrincipal User user) {
         List<PurchaseResponse> purchases = purchaseService.getPurchasesByUserId(user.getId());
         return ResponseEntity.ok(purchases);
     }
 
     @GetMapping("/date")
+    @Operation(summary = "Get list of purchases by date")
     public ResponseEntity<List<PurchaseResponse>> getPurchasesByDate(@RequestParam LocalDate date) {
         List<PurchaseResponse> purchases = purchaseService.getPurchasesByDate(date);
         return ResponseEntity.ok(purchases);

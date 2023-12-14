@@ -27,7 +27,6 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/api/auth/**",
-                                "/api/productImage/**",
                                 "/api/xml/**",
                                 "/v2/api-docs",
                                 "/v3/api-docs",

@@ -19,20 +19,21 @@ import java.util.Optional;
 public class ProductImageService {
 
     private final ProductImageRepositroy productImageRepositroy;
-    private final String folderPath = "C:\\Users\\limik\\Desktop\\java\\vintedClone\\data\\productImages";
+    //private final String folderPath = "C:\\Users\\limik\\Desktop\\java\\vintedClone\\data\\productImages";
+    private final String folderPath = "C:\\Users\\karol\\Desktop\\JAVA\\VintedClone\\productImages";
 
     @Autowired
     public ProductImageService(ProductImageRepositroy productImageRepositroy) {
         this.productImageRepositroy = productImageRepositroy;
     }
 
-    public String uploadImage(MultipartFile file) throws IOException {
+    public String uploadImage(MultipartFile file, Long productId) throws IOException {
         String fileName = file.getOriginalFilename();
         String filePath = folderPath + File.separator + fileName;
 
         ProductImage productImage = productImageRepositroy.save(
                 ProductImage.builder()
-                        .productId(1L)
+                        .productId(productId)
                         .name(fileName)
                         .type(file.getContentType())
                         .filePath(filePath)

@@ -34,6 +34,7 @@ public class ProductController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Get list of products") //ŻEBY BYŁY AKTUALNE
     public List<ProductResponse> getCurrentProducts(@RequestParam(required = false) Category category){
         return productService.getProducts(category);
     }
@@ -56,7 +57,7 @@ public class ProductController {
     }
 
     @DeleteMapping(path = "{productId}")
-    @Operation(description = "Delete product")
+    @Operation(summary = "Delete product")
     public void deleteProduct(@PathVariable("productId") Long productId){
         productService.deleteProduct(productId);
     }

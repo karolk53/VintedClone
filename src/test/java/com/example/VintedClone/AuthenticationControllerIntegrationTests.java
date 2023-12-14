@@ -18,6 +18,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.*;
@@ -29,6 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = VintedCloneApplication.class)
 @AutoConfigureMockMvc
 @EnableAutoConfiguration(exclude = SecurityAutoConfiguration.class)
+//@TestPropertySource(locations = "classpath:application.properties")
 @AutoConfigureTestDatabase
 public class AuthenticationControllerIntegrationTests {
 
@@ -52,8 +54,8 @@ public class AuthenticationControllerIntegrationTests {
         ObjectMapper objectMapper = new ObjectMapper();
         AuthenticationRequest authenticationRequest = new AuthenticationRequest("jan@example.com", "password");
         mvc.perform(post("/api/auth/authenticate")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(authenticationRequest)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(authenticationRequest)))
                 .andExpect(status().isOk());
     }
 }

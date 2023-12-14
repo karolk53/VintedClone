@@ -27,9 +27,9 @@ public class ProductImageController {
     @Autowired
     private final ProductImageService productImageService;
 
-    @PostMapping
-    public ResponseEntity<String> addImage(@RequestParam("image") MultipartFile file) throws IOException {
-        String productImage = productImageService.uploadImage(file);
+    @PostMapping("/{productId}")
+    public ResponseEntity<String> addImage(@RequestParam("image") MultipartFile file, @PathVariable Long productId) throws IOException {
+        String productImage = productImageService.uploadImage(file, productId);
         return ResponseEntity.status(HttpStatus.OK).body(productImage);
     }
 

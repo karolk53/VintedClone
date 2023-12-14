@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.RolesAllowed;
@@ -39,6 +40,7 @@ public class JsonController {
     private final PurchaseService purchaseService;
 
     @GetMapping("/download")
+    @Operation(summary = "Get list of purchases to JSON file")
     public ResponseEntity<byte[]> downloadPurchasesInJson(@AuthenticationPrincipal User user){
         List<PurchaseResponse> purchases = purchaseService.getPurchasesByUserId(user.getId());
 
@@ -55,6 +57,7 @@ public class JsonController {
     }
 
     @PostMapping("/import")
+    @Operation(summary = "Import products from JSON file")
     public ResponseEntity<String> importProductsFromJson(@AuthenticationPrincipal User user, @RequestParam("file") MultipartFile file) throws IOException {
 
         if (file.isEmpty()) {

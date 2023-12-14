@@ -4,6 +4,7 @@ import com.example.VintedClone.auth.AuthenticationRequest;
 import com.example.VintedClone.auth.AuthenticationResponse;
 import com.example.VintedClone.dto.RegisterRequest;
 import com.example.VintedClone.service.AuthenticationService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +22,13 @@ public class AuthenticationController {
     private final AuthenticationService service;
 
     @PostMapping("/register")
+    @Operation(summary = "Register new user")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
         return ResponseEntity.ok(service.register(request));
     }
 
     @PostMapping("/authenticate")
+    @Operation(summary = "Login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest request){
         return ResponseEntity.ok(service.authenticate(request));
     }

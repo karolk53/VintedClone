@@ -8,8 +8,8 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 
 @OpenAPIDefinition(
         info = @Info(
-                description = "Spring API made for studies",
-                title = "Online store api",
+                description = "REST API do sprzedaży produktów online",
+                title = "e-Bazarek",
                 version = "1.0"
         ))
 @SecurityScheme(
