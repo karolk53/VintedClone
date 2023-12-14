@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +40,40 @@ public class ProductService {
         List<Product> products = productRepository.findAll();
         return products.stream().map(this::mapToProductResponse).toList();
     }
+
+    public List<ProductResponse> getFilteredProducts(Category category, String description, Float price, String name) {
+        List<Product> filteredProducts;
+
+        if (category != null) {
+            filteredProducts = productRepository.findProductsByCategory(category);
+        } else {
+            filteredProducts = productRepository.findAll();
+        }
+
+        // Dodaj filtry do wynikowej listy na podstawie warunków
+        if (description != null) {
+            filteredProducts = filteredProducts.stream()
+                    .filter(product -> product.getDescription().contains(description))
+                    .collect(Collectors.toList());
+        }
+
+        if (price != null) {
+            filteredProducts = filteredProducts.stream()
+                    .filter(product -> product.getPrice() <= price)
+                    .collect(Collectors.toList());
+        }
+
+        if (name != null) {
+            filteredProducts = filteredProducts.stream()
+                    .filter(product -> product.getName().contains(name))
+                    .collect(Collectors.toList());
+        }
+
+        return filteredProducts.stream()
+                .map(this::mapToProductResponse)
+                .toList();
+    }
+
 
     private ProductResponse mapToProductResponse(Product product) {
         return ProductResponse.builder()

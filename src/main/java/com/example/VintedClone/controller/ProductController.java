@@ -34,8 +34,13 @@ public class ProductController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<ProductResponse> getCurrentProducts(@RequestParam(required = false) Category category){
-        return productService.getProducts(category);
+    public List<ProductResponse> getCurrentProducts(
+            @RequestParam(required = false) Category category,
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false) Float price,
+            @RequestParam(required = false) String name) {
+
+        return productService.getFilteredProducts(category, description, price, name);
     }
 
     @PostMapping
